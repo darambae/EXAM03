@@ -36,16 +36,15 @@ int	ft_put_nbr(int nbr)
 	return count;
 }
 
-int	ft_put_hex(unsigned int hex)
+int	ft_put_hex(int hex)
 {
 	int	count = 0;
 
 	if (hex > 15)
 		count += ft_put_hex(hex / 16);
-	if (hex % 16 > 9)
+	if (hex > 9)
 		count += ft_put_char(hex % 16 - 10 + 'a');
-	else
-		count += ft_put_char(hex % 16 + '0');
+	count += ft_put_char(hex % 16 + '0');
 	return count;
 }
 
@@ -66,14 +65,12 @@ int	ft_printf(const char *format, ...)
 			else if (format[i] == 'd')
 				count += ft_put_nbr(va_arg(ap, int));
 			else if (format[i] == 'x')
-				count += ft_put_hex(va_arg(ap, unsigned int));
+				count += ft_put_hex(va_arg(ap, long));
 			else if (format[i] == '%')
-				count += ft_put_char('%');
-			else
 			{
 				count += ft_put_char('%');
 				count += ft_put_char(format[i]);
-			}	
+			}
 		}
 		else
 			count += ft_put_char(format[i]);
@@ -83,8 +80,8 @@ int	ft_printf(const char *format, ...)
 	return (count);
 }
 
-/*int	main(void)
+int	main(void)
 {
 	ft_printf("This is %s / %d / %x / %% / %d\n", "TEST", 42, 42, -2147483648);
 	return 0;
-}*/
+}
